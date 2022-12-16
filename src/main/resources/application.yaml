@@ -1,0 +1,13 @@
+# 项目名称
+spring:
+  application:
+    name: TinaSprout-Robot
+
+#端口号
+server:
+  port: 8080
+  
+  
+bot:
+  type: ws
+  url: ws://wuxianggujun.com:8001
