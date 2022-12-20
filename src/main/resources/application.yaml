@@ -10,4 +10,4 @@ server:
   
 bot:
   type: ws
-  url: ws://wuxianggujun.com:8001
+  url: ws://127.0.0.1:6700
