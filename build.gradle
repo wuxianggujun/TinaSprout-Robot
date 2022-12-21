@@ -19,16 +19,19 @@ configurations {
 }
 
 repositories {
-    maven { url 'file:///D:\\Java\\Maven\\apache-maven-3.8.6\\repo\\'}
-    //ÏÈ´Ó±¾µØ²Ö¿âÑ°ÕÒ£¬±¾µØ²Ö¿âÃ»ÓĞÔÙ´ÓÖĞÑë²Ö¿âÑ°ÕÒ
+    maven { url 'file:///D:\\Java\\Maven\\apache-maven-3.8.6\\repo\\' }
+    //é˜¿é‡Œäº‘æºåœ°å€
     mavenLocal()
-    maven{ url 'https://maven.aliyun.com/nexus/content/groups/public/' }
+    maven { url 'https://maven.aliyun.com/nexus/content/groups/public/' }
     mavenCentral()
 }
 
 dependencies {
+    //h2æ•°æ®åº“ https://h2database.com
+    implementation 'com.h2database:h2:2.1.214'
     implementation 'com.zhuangxv:bot-core:1.0.0'
     implementation 'org.springframework.boot:spring-boot-starter-web'
+    implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
     compileOnly 'org.projectlombok:lombok'
     developmentOnly 'org.springframework.boot:spring-boot-devtools'
     annotationProcessor 'org.springframework.boot:spring-boot-configuration-processor'

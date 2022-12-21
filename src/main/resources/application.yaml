@@ -1,13 +1,43 @@
-# 项目名称
 spring:
   application:
+    # 项目名称
     name: TinaSprout-Robot
+  # H2 Database
+  h2:
+    console:
+      enabled: true
+      path: /h2-console
+      #禁止跟踪输出
+      settings.trace: false
+      #禁止远程登录
+      settings.web-allow-others: false
+
+  #Datasource Configuration
+  datasource:
+    #配置数据库在当前目录
+    url: jdbc:h2:file:./data/demo;NON_KEYWORDS=USER
+    driver-class-name: org.h2.Driver
+    username: wuxianggujun
+    password: 3344207732@qq.com
+
+  #JPA Configuration
+  jpa:
+    #数据库取消冲突的保留字 NON_KEYWORDS=USER
+    database-platform: org.hibernate.dialect.H2Dialect
+    #在开发阶段中，通常使用update，但需要注意，update不会移除先前已经存在的列和约束，即使是不再需要的。
+    #当产品发布的时候，建议使用none或直接不指定该属性。
+    #不指定数据库初始化模式
+    hibernate:
+      ddl-auto: update
+    #启用SQL语句的日志记录
+    show-sql: true
+
 
 #端口号
 server:
   port: 8080
-  
-  
+
+
 bot:
   type: ws
-  url: ws://127.0.0.1:6700
+  url: ws://wuxianggujun.com:6700
