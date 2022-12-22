@@ -27,6 +27,8 @@ repositories {
 }
 
 dependencies {
+    implementation 'cn.hutool:hutool-all:5.8.10'
+
     //h2数据库 https://h2database.com
     implementation 'com.h2database:h2:2.1.214'
     implementation 'com.zhuangxv:bot-core:1.0.0'
