@@ -1,26 +1,19 @@
 package com.wuxianggujun.tinasproutrobot.entity;
 
-import lombok.AllArgsConstructor;
 import lombok.Data;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 
 /**
  * @author WuXiangGuJun
- * @create 2022-12-21 16:52
+ * @create 2022-12-22 11:25
  **/
-@Entity
 @Data
-public class User {
-
+@Entity
+public class TinaSprout_Bots {
     @Id
+    @Column(name = "id", nullable = false)
     private Long id;
-    private String name;
-    private int age;
-
-    public User() {
-
-    }
-
 }

@@ -15,7 +15,7 @@ spring:
   #Datasource Configuration
   datasource:
     #配置数据库在当前目录
-    url: jdbc:h2:file:./data/demo;NON_KEYWORDS=USER
+    url: jdbc:h2:file:./data/TinaSprout-Database;NON_KEYWORDS=USER
     driver-class-name: org.h2.Driver
     username: wuxianggujun
     password: 3344207732@qq.com

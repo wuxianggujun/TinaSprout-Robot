@@ -3,9 +3,11 @@ package com.wuxianggujun.tinasproutrobot.core;
 import cn.hutool.extra.spring.SpringUtil;
 import com.zhuangxv.bot.annotation.FriendMessageHandler;
 import com.zhuangxv.bot.annotation.GroupMessageHandler;
+import com.zhuangxv.bot.core.Bot;
 import com.zhuangxv.bot.core.Friend;
 import com.zhuangxv.bot.core.Group;
 import com.zhuangxv.bot.core.Member;
+import com.zhuangxv.bot.core.component.BotFactory;
 import com.zhuangxv.bot.injector.support.BotInjector;
 import com.zhuangxv.bot.message.MessageChain;
 import lombok.extern.slf4j.Slf4j;
@@ -21,8 +23,9 @@ public class SaveChatHistory {
 
 
     public SaveChatHistory() {
-        BotInjector botInjector = SpringUtil.getBean(BotInjector.class);
-        System.out.println("botInjector = " + botInjector);
+        for (Bot bot : BotFactory.getBots().values()) {
+            System.out.println("bot = " + bot.getBotName());
+        }
     }
 
 
