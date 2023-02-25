@@ -10,7 +10,7 @@ spring:
       #禁止跟踪输出
       settings.trace: false
       #禁止远程登录
-      settings.web-allow-others: false
+      settings.web-allow-others: true
 
   #Datasource Configuration
   datasource:

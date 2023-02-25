@@ -1,11 +1,12 @@
 package com.wuxianggujun.tinasproutrobot;
 
+import com.github.lianjiatech.retrofit.spring.boot.core.RetrofitScan;
 import com.zhuangxv.bot.EnableBot;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.context.annotation.ComponentScan;
 
 @EnableBot
+@RetrofitScan("com.github.lianjiatech.retrofit.spring.boot.test")
 @SpringBootApplication(scanBasePackages = {"com.wuxianggujun.tinasproutrobot.*","cn.hutool.extra.spring"})
 public class TinaSproutRobotApplication {
 
