@@ -1,6 +1,7 @@
 package com.wuxianggujun.tinasproutrobot.command.impl;
 
 import com.wuxianggujun.tinasproutrobot.command.factory.CommandHandlerFactory;
+import com.wuxianggujun.tinasproutrobot.command.intface.Command;
 import com.wuxianggujun.tinasproutrobot.command.intface.CommandHandler;
 
 /**
@@ -11,11 +12,11 @@ import com.wuxianggujun.tinasproutrobot.command.intface.CommandHandler;
 public class AddCommandHandlerFactory implements CommandHandlerFactory {
 
     @Override
-    public CommandHandler createHandler(String option) {
-        if ("-admin".equals(option)) {
+    public CommandHandler createHandler(Command command) {
+        if (command instanceof AddCommand) {
             return new AddAdminCommandHandler();
         } else {
-            throw new IllegalArgumentException("Unknown option: " + option);
+            throw new IllegalArgumentException("Unknown command: " + command.getClass().getName());
         }
     }
 

@@ -1,6 +1,5 @@
 package com.wuxianggujun.tinasproutrobot.command.impl;
 
-import com.wuxianggujun.tinasproutrobot.command.intface.CommandHandler;
 import com.wuxianggujun.tinasproutrobot.command.factory.CommandFactory;
 import com.wuxianggujun.tinasproutrobot.command.factory.CommandHandlerFactory;
 import com.wuxianggujun.tinasproutrobot.command.intface.Command;
@@ -14,7 +13,6 @@ public class AddCommandFactory implements CommandFactory {
     @Override
     public Command createCommand(String option, String content) {
         CommandHandlerFactory factory = getHandlerFactory();
-        CommandHandler handler = factory.createHandler(option);
         return new AddCommand(handler, content);
     }
 

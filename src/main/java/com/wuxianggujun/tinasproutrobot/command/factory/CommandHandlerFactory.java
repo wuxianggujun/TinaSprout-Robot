@@ -1,5 +1,6 @@
 package com.wuxianggujun.tinasproutrobot.command.factory;
 
+import com.wuxianggujun.tinasproutrobot.command.intface.Command;
 import com.wuxianggujun.tinasproutrobot.command.intface.CommandHandler;
 
 /**
@@ -11,5 +12,5 @@ import com.wuxianggujun.tinasproutrobot.command.intface.CommandHandler;
  * 通常会将不同的命令封装成不同的命令对象，每个命令对象都有一个对应的命令处理器来执行具体的操作
  **/
 public interface CommandHandlerFactory {
-    CommandHandler createHandler(String command);
+    CommandHandler createHandler(Command command);
 }
