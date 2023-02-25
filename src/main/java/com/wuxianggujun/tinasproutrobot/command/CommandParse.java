@@ -42,9 +42,21 @@ public class CommandParse {
                 params.put(key, value);//加入到map中
                 i++;
             }
+            System.out.println("parts = " + parts);
         }
         System.out.println("Action: " + action);
         System.out.println("Params: " + params);
+    }
+
+
+    public ParsedCommand parse(String commandStr) {
+        if (!commandStr.startsWith(operator)) {
+            return null;
+        }
+        String[] parts = commandStr.split("\\\\s+");
+        String command = parts[0].substring(1);
+        String option = parts.length > 1 ? parts[1] : "";
+        return new ParsedCommand(command, option);
     }
 
 
@@ -67,6 +79,5 @@ public class CommandParse {
     public String getContent() {
         return "";
     }
-
 
 }

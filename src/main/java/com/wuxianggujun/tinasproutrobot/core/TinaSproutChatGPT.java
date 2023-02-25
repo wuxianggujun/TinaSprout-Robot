@@ -1,9 +1,5 @@
 package com.wuxianggujun.tinasproutrobot.core;
 
-import com.wuxianggujun.tinasproutrobot.command.CommandExecutor;
-import com.wuxianggujun.tinasproutrobot.command.TinaSproutCommand;
-import lombok.Getter;
-import lombok.Setter;
 import org.springframework.stereotype.Component;
 
 /**
@@ -21,8 +17,8 @@ public class TinaSproutChatGPT {
 
     }
 
-    public static void main(String[] args) {
+/*    public static void main(String[] args) {
         CommandExecutor commandExecutor = new CommandExecutor();
-        commandExecutor.execute(new TinaSproutCommand("/add -n John -a 25"));
-    }
+        commandExecutor.execute(new TinaSproutCommand("/add -n John -a 25 "));
+    }*/
 }
