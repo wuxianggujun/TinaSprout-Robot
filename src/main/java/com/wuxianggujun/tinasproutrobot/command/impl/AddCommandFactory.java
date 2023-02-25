@@ -15,7 +15,7 @@ public class AddCommandFactory implements CommandFactory {
     public Command createCommand(String option, String content) {
         CommandHandlerFactory factory = getHandlerFactory();
         CommandHandler handler = factory.createHandler(option);
-        return new AddCommand(handler,content);
+        return new AddCommand(handler, content);
     }
 
     @Override

@@ -6,6 +6,7 @@ import com.wuxianggujun.tinasproutrobot.command.intface.CommandHandler;
 /**
  * @author WuXiangGuJun
  * @create 2023-02-25 21:40
+ * 相当于解析option的
  **/
 public class AddCommandHandlerFactory implements CommandHandlerFactory {
 
