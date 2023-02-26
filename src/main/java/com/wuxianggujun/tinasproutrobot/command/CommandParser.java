@@ -13,37 +13,45 @@ import java.util.*;
  **/
 public class CommandParser {
     private CommandFactory commandFactory;
-
-    public CommandParser(CommandFactory commandFactory) {
-        this.commandFactory = commandFactory;
-    }
+    private String operator = "/";
 
     public CommandParser() {
 
     }
 
+    public CommandParser(CommandFactory commandFactory) {
+        this.commandFactory = commandFactory;
+    }
+
+
     public void parse(@NotNull String commandLine) {
-
+        if (!commandLine.startsWith(operator)) {
+            return;
+        }
         String[] args = commandLine.split("\\s+");
-
-        String commandName = args[0].substring(1);
-        System.out.println("commandName = " + commandName);
-
+        String commandName = args[0].substring(args[0].indexOf(operator) + 1);
         //减去/add的数组，复制一份
-        String[] commandArgs = Arrays.copyOfRange(args, 1, args.length);
+        String[] commandArray = Arrays.copyOfRange(args, 1, args.length);
+        Map<String, String> params = parseCommandArgs(commandArray);
+        CommandArgs commandArgs = new CommandArgs(params);
+        if (commandFactory == null) {
+            commandFactory = createCommandFactory(commandName);
+            if (commandFactory == null) {
+                return;
+                //throw new IllegalArgumentException("The command does not exist " + commandName);
+            }
+        }
 
-        Map<String, String> params = parseCommandArgs(commandArgs);
-        System.out.println("params = " + params.get("admin"));
-        System.out.println("params.get(\"input\") = " + params.get("input"));
-        System.out.println("params = " + params.values());
-
+        Command command = commandFactory.createCommand(commandArgs);
+        if (command != null) {
+            command.execute(commandArgs);
+        }
     }
 
     public Map<String, String> parseCommandArgs(@NotNull String[] args) {
         Map<String, String> argMap = new HashMap<>();
         String currentKey = "default";
         StringBuilder currentVal = null;
-
         for (String arg : args) {
             if (arg.startsWith("-")) {
                 if (currentVal != null) {
@@ -93,37 +101,6 @@ public class CommandParser {
         return result;
     }*/
 
-
-
-    /*public void parse(@NotNull String inputString) {
-        String[] commandParts = inputString.split("\\s+");
-        //获取命令名字是add还是delete
-        String commandName = commandParts[0].substring(1);
-        CommandFactory commandFactory = createCommandFactory(commandName);
-        //判断命令存不存在
-        if (commandFactory == null) {
-            throw new IllegalArgumentException("Unknown command: " + commandName);
-        }
-        Map<String, String> argsMap = new HashMap<>();
-        for (int i = 1; i < commandParts.length; i += 2) {
-            String arg = commandParts[i];
-            if (arg.startsWith("-")) {
-                String key = arg.substring(1);
-                String value = "";
-                if (i + 1 < commandParts.length && !commandParts[i + 1].startsWith("-")) {
-                    value = commandParts[i + 1];
-                    i++;
-                }
-                argsMap.put(key, value);
-            }
-        }
-        CommandArgs commandArgs = new CommandArgs(argsMap);
-        Command command = commandFactory.createCommand(commandArgs);
-        if (command != null) {
-            command.execute(commandArgs);
-        }
-    }*/
-
     private CommandFactory createCommandFactory(String commandName) {
         CommandFactory commandFactory = null;
         switch (commandName) {
@@ -132,5 +109,9 @@ public class CommandParser {
                 break;
         }
         return commandFactory;
+    }
+
+    public void setOperator(String operator) {
+        this.operator = operator;
     }
 }

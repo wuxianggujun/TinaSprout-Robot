@@ -11,6 +11,8 @@ public class AddCommand implements Command {
 
     @Override
     public void execute(CommandArgs args) {
-        System.out.println("AddCommand = " + this.getClass().getName());
+        System.out.println("args.getValue(\"input\") = " + args.getValue("input"));
+        System.out.println("this.getClass().getName() = " + this.getClass().getName());
+        System.out.println("args = " + args.toString());
     }
 }

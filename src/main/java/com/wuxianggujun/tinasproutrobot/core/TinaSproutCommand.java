@@ -1,5 +1,8 @@
 package com.wuxianggujun.tinasproutrobot.core;
 
+import com.wuxianggujun.tinasproutrobot.command.CommandParser;
+import com.zhuangxv.bot.annotation.FriendMessageHandler;
+import com.zhuangxv.bot.core.Friend;
 import org.springframework.stereotype.Component;
 
 /**
@@ -9,9 +12,10 @@ import org.springframework.stereotype.Component;
 @Component
 public class TinaSproutCommand {
 
-    public void message() {
-
+    @FriendMessageHandler(senderIds = {})
+    public void message(Friend friend, String message) {
+        CommandParser commandParser = new CommandParser();
+        commandParser.parse(message);
     }
-
 
 }
