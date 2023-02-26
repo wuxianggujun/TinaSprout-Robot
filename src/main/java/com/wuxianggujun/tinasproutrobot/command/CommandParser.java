@@ -3,6 +3,8 @@ package com.wuxianggujun.tinasproutrobot.command;
 import com.wuxianggujun.tinasproutrobot.command.impl.AddCommandFactory;
 import com.wuxianggujun.tinasproutrobot.command.inter.Command;
 import com.wuxianggujun.tinasproutrobot.command.inter.CommandFactory;
+import com.zhuangxv.bot.core.Contact;
+import com.zhuangxv.bot.core.Friend;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.*;
@@ -14,9 +16,13 @@ import java.util.*;
 public class CommandParser {
     private CommandFactory commandFactory;
     private String operator = "/";
+    private Contact contact;
+
+    public void setContact(Contact contact) {
+        this.contact = contact;
+    }
 
     public CommandParser() {
-
     }
 
     public CommandParser(CommandFactory commandFactory) {
@@ -32,8 +38,13 @@ public class CommandParser {
         String commandName = args[0].substring(args[0].indexOf(operator) + 1);
         //减去/add的数组，复制一份
         String[] commandArray = Arrays.copyOfRange(args, 1, args.length);
-        Map<String, String> params = parseCommandArgs(commandArray);
+        Map<String, Object> params = parseCommandArgs(commandArray);
         CommandArgs commandArgs = new CommandArgs(params);
+        if (contact != null) {
+            if (contact instanceof Friend friend) {
+                commandArgs.setValue(Friend.class.getName(), friend);
+            }
+        }
         if (commandFactory == null) {
             commandFactory = createCommandFactory(commandName);
             if (commandFactory == null) {
@@ -48,8 +59,8 @@ public class CommandParser {
         }
     }
 
-    public Map<String, String> parseCommandArgs(@NotNull String[] args) {
-        Map<String, String> argMap = new HashMap<>();
+    public Map<String, Object> parseCommandArgs(@NotNull String[] args) {
+        Map<String, Object> argMap = new HashMap<>();
         String currentKey = "default";
         StringBuilder currentVal = null;
         for (String arg : args) {
@@ -74,39 +85,10 @@ public class CommandParser {
         return argMap;
     }
 
-
-   /* public Map<String, String> parseCommandArgs(String[] args) {
-        Map<String, String> result = new HashMap<>();
-
-        for (int i = 1; i < args.length; i++) {
-            String arg = args[i];
-            if (arg.startsWith("-")) {
-                int index = arg.indexOf("=");
-                if (index > 0) {
-                    String key = arg.substring(1, index);
-                    String value = arg.substring(index + 1).trim();
-                    result.put(key, value);
-                } else if (i + 1 < args.length && !args[i + 1].startsWith("-")) {
-                    String key = arg.substring(1);
-                    String value = args[i + 1].trim();
-                    result.put(key, value);
-                    i++;
-                } else {
-                    String key = arg.substring(1);
-                    result.put(key, "");
-                }
-            }
-        }
-
-        return result;
-    }*/
-
     private CommandFactory createCommandFactory(String commandName) {
         CommandFactory commandFactory = null;
-        switch (commandName) {
-            case "add":
-                commandFactory = new AddCommandFactory();
-                break;
+        if (commandName.equals("add")) {
+            commandFactory = new AddCommandFactory();
         }
         return commandFactory;
     }

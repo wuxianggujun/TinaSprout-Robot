@@ -2,6 +2,7 @@ package com.wuxianggujun.tinasproutrobot.command.impl;
 
 import com.wuxianggujun.tinasproutrobot.command.CommandArgs;
 import com.wuxianggujun.tinasproutrobot.command.inter.Command;
+import com.zhuangxv.bot.core.Friend;
 
 import java.util.Arrays;
 
@@ -17,6 +18,9 @@ public class AddAdminCommand implements Command {
 
     @Override
     public void execute(CommandArgs args) {
+
+        Friend friend = (Friend) args.getValue(Friend.class.getName());
+        System.out.println("NickName: = " + friend.getNickname());
         System.out.println("args.getValue(\"input\") = " + args.getValue("input"));
         System.out.println("this.getClass().getName() = " + this.getClass().getName());
         System.out.println("args = " + args.toString());

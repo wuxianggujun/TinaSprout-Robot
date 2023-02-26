@@ -15,6 +15,7 @@ public class TinaSproutCommand {
     @FriendMessageHandler(senderIds = {})
     public void message(Friend friend, String message) {
         CommandParser commandParser = new CommandParser();
+        commandParser.setContact(friend);
         commandParser.parse(message);
     }
 

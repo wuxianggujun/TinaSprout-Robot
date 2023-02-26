@@ -1,7 +1,5 @@
 package com.wuxianggujun.tinasproutrobot.command;
 
-import java.nio.charset.Charset;
-import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
 import java.util.stream.Stream;
@@ -11,18 +9,19 @@ import java.util.stream.Stream;
  * @create 2023-02-26 11:03
  **/
 public class CommandArgs {
-    private final Map<String, String> args;
 
-    public CommandArgs(Map<String, String> args) {
+    private final Map<String, Object> args;
+
+    public CommandArgs(Map<String, Object> args) {
         this.args = args;
     }
 
     public String getValue(String key, String defaultValue) {
-        String value = args.get(key);
+        String value = (String) args.get(key);
         return value != null ? value : defaultValue;
     }
 
-    public String getValue(String key) {
+    public Object getValue(String key) {
         return args.get(key);
     }
 
@@ -34,12 +33,11 @@ public class CommandArgs {
         if (!containsKey(key)) {
             return false;
         }
-        Stream<Map.Entry<String, String>> stream = args.entrySet().stream();
+        Stream<Map.Entry<String, Object>> stream = args.entrySet().stream();
         //满足条件时终止整个stream的处理过程
         boolean found = stream.anyMatch(entry -> {
             String entryKey = entry.getKey();
             if (entryKey.equals(key)) {
-                System.out.println("key = " + key);
                 return true;
             }
             return false;
@@ -47,23 +45,22 @@ public class CommandArgs {
         return found;
     }
 
-    public void setValue(String key, String value) {
-        if (key == null || key.isEmpty() || value == null) {
-            throw new IllegalArgumentException("Invalid key of value");
+    public void setValue(String key, Object value) {
+        if (containsKey(key) || key == null || key.isEmpty() || value == null) {
+            throw new IllegalArgumentException("Key or Value exists or is empty！");
         }
         args.put(key, value);
     }
 
     public String toString() {
         StringBuilder sb = new StringBuilder();
-        Iterator<Map.Entry<String, String>> iterator = args.entrySet().iterator();
+        Iterator<Map.Entry<String, Object>> iterator = args.entrySet().iterator();
         while (iterator.hasNext()) {
             sb.append("\n");
-            Map.Entry<String, String> entry = iterator.next();
-            sb.append(String.format("%s=%s", entry.getKey(), entry.getValue()));
+            Map.Entry<String, Object> entry = iterator.next();
+            sb.append(String.format("%s=%s", entry.getKey(), entry.getValue().toString()));
         }
         return sb.toString();
     }
-
 
 }
