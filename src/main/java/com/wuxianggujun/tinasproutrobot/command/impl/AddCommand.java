@@ -10,7 +10,7 @@ import com.wuxianggujun.tinasproutrobot.command.inter.Command;
 public class AddCommand implements Command {
 
     @Override
-    public void execute() {
+    public void execute(CommandArgs args) {
         System.out.println("AddCommand = " + this.getClass().getName());
     }
 }

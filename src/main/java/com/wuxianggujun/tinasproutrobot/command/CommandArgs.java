@@ -1,6 +1,8 @@
 package com.wuxianggujun.tinasproutrobot.command;
 
+import java.nio.charset.Charset;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.Map;
 import java.util.stream.Stream;
 
@@ -50,6 +52,17 @@ public class CommandArgs {
             throw new IllegalArgumentException("Invalid key of value");
         }
         args.put(key, value);
+    }
+
+    public String toString() {
+        StringBuilder sb = new StringBuilder();
+        Iterator<Map.Entry<String, String>> iterator = args.entrySet().iterator();
+        while (iterator.hasNext()) {
+            sb.append("\n");
+            Map.Entry<String, String> entry = iterator.next();
+            sb.append(String.format("%s=%s", entry.getKey(), entry.getValue()));
+        }
+        return sb.toString();
     }
 
 

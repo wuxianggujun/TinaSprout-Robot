@@ -3,8 +3,11 @@ package com.wuxianggujun.tinasproutrobot.command;
 import com.wuxianggujun.tinasproutrobot.command.impl.AddCommandFactory;
 import com.wuxianggujun.tinasproutrobot.command.inter.Command;
 import com.wuxianggujun.tinasproutrobot.command.inter.CommandFactory;
+import org.jetbrains.annotations.NotNull;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -22,30 +25,100 @@ public class CommandParser {
 
     }
 
-    public void parse(String inputString) {
-        String[] parts = inputString.split(" ");
+    public void parse(@NotNull String commandLine) {
+
+        String[] args = commandLine.split(" ");
+        Map<String, String> params = parseCommandArgs(args);
+        System.out.println("params = " + params.get("admin"));
+        System.out.println("params.get(\"input\") = " + params.get("input"));
+        System.out.println("params = " + params.values());
+
+    }
+
+    public Map<String, String> parseCommandArgs(String[] args) {
+        Map<String, String> argMap = new HashMap<>();
+        String currentKey = null;
+        StringBuilder currentVal = null;
+
+        for (String arg : args) {
+            if (arg.startsWith("-")) {
+                if (currentVal != null) {
+                    argMap.put(currentKey, currentVal.toString());
+                    currentVal = null;
+                }
+                currentKey = arg.substring(1);
+            } else {
+                if (currentVal == null) {
+                    currentVal = new StringBuilder();
+                } else {
+                    currentVal.append(" ");
+                }
+                currentVal.append(arg);
+            }
+        }
+        if (currentVal != null) {
+            argMap.put(currentKey, currentVal.toString());
+        }
+        return argMap;
+    }
+
+
+   /* public Map<String, String> parseCommandArgs(String[] args) {
+        Map<String, String> result = new HashMap<>();
+
+        for (int i = 1; i < args.length; i++) {
+            String arg = args[i];
+            if (arg.startsWith("-")) {
+                int index = arg.indexOf("=");
+                if (index > 0) {
+                    String key = arg.substring(1, index);
+                    String value = arg.substring(index + 1).trim();
+                    result.put(key, value);
+                } else if (i + 1 < args.length && !args[i + 1].startsWith("-")) {
+                    String key = arg.substring(1);
+                    String value = args[i + 1].trim();
+                    result.put(key, value);
+                    i++;
+                } else {
+                    String key = arg.substring(1);
+                    result.put(key, "");
+                }
+            }
+        }
+
+        return result;
+    }*/
+
+
+
+    /*public void parse(@NotNull String inputString) {
+        String[] commandParts = inputString.split("\\s+");
         //获取命令名字是add还是delete
-        String commandName = parts[0].substring(1);
+        String commandName = commandParts[0].substring(1);
         CommandFactory commandFactory = createCommandFactory(commandName);
         //判断命令存不存在
         if (commandFactory == null) {
             throw new IllegalArgumentException("Unknown command: " + commandName);
         }
         Map<String, String> argsMap = new HashMap<>();
-        for (int i = 1; i < parts.length; i += 2) {
-            if (i + 1 >= parts.length) {
-                throw new IllegalArgumentException("Invalid command line: " + inputString);
+        for (int i = 1; i < commandParts.length; i += 2) {
+            String arg = commandParts[i];
+            if (arg.startsWith("-")) {
+                String key = arg.substring(1);
+                String value = "";
+                if (i + 1 < commandParts.length && !commandParts[i + 1].startsWith("-")) {
+                    value = commandParts[i + 1];
+                    i++;
+                }
+                argsMap.put(key, value);
             }
-            String key = parts[i].replaceAll("-", "");
-            String value = parts[i + 1];
-            argsMap.put(key, value);
         }
         CommandArgs commandArgs = new CommandArgs(argsMap);
         Command command = commandFactory.createCommand(commandArgs);
         if (command != null) {
-            command.execute();
+            command.execute(commandArgs);
         }
-    }
+    }*/
 
     private CommandFactory createCommandFactory(String commandName) {
         CommandFactory commandFactory = null;
