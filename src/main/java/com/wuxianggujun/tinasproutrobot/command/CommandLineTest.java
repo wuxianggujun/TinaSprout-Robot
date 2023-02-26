@@ -7,6 +7,6 @@ package com.wuxianggujun.tinasproutrobot.command;
 public class CommandLineTest {
     public static void main(String[] args) {
         CommandParser commandParser = new CommandParser();
-        commandParser.parse("/add -admin wuxianggujun -input i love you");
+        commandParser.parse("/add admin wuxianggujun -input 我 爱 你哟-");
     }
 }

@@ -5,10 +5,7 @@ import com.wuxianggujun.tinasproutrobot.command.inter.Command;
 import com.wuxianggujun.tinasproutrobot.command.inter.CommandFactory;
 import org.jetbrains.annotations.NotNull;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 /**
  * @author WuXiangGuJun
@@ -27,17 +24,24 @@ public class CommandParser {
 
     public void parse(@NotNull String commandLine) {
 
-        String[] args = commandLine.split(" ");
-        Map<String, String> params = parseCommandArgs(args);
+        String[] args = commandLine.split("\\s+");
+
+        String commandName = args[0].substring(1);
+        System.out.println("commandName = " + commandName);
+
+        //减去/add的数组，复制一份
+        String[] commandArgs = Arrays.copyOfRange(args, 1, args.length);
+
+        Map<String, String> params = parseCommandArgs(commandArgs);
         System.out.println("params = " + params.get("admin"));
         System.out.println("params.get(\"input\") = " + params.get("input"));
         System.out.println("params = " + params.values());
 
     }
 
-    public Map<String, String> parseCommandArgs(String[] args) {
+    public Map<String, String> parseCommandArgs(@NotNull String[] args) {
         Map<String, String> argMap = new HashMap<>();
-        String currentKey = null;
+        String currentKey = "default";
         StringBuilder currentVal = null;
 
         for (String arg : args) {
