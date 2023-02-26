@@ -6,6 +6,7 @@ import com.wuxianggujun.tinasproutrobot.command.inter.CommandFactory;
 import com.zhuangxv.bot.core.Contact;
 import com.zhuangxv.bot.core.Friend;
 import org.jetbrains.annotations.NotNull;
+import org.springframework.stereotype.Component;
 
 import java.util.*;
 
@@ -13,8 +14,8 @@ import java.util.*;
  * @author WuXiangGuJun
  * @create 2023-02-25 23:03
  **/
+@Component
 public class CommandParser {
-    private CommandFactory commandFactory;
     private String operator = "/";
     private Contact contact;
 
@@ -23,10 +24,6 @@ public class CommandParser {
     }
 
     public CommandParser() {
-    }
-
-    public CommandParser(CommandFactory commandFactory) {
-        this.commandFactory = commandFactory;
     }
 
 
@@ -45,14 +42,8 @@ public class CommandParser {
                 commandArgs.setValue(Friend.class.getName(), friend);
             }
         }
-        if (commandFactory == null) {
-            commandFactory = createCommandFactory(commandName);
-            if (commandFactory == null) {
-                return;
-                //throw new IllegalArgumentException("The command does not exist " + commandName);
-            }
-        }
-
+        CommandFactory commandFactory = createCommandFactory(commandName);
+        if (commandFactory == null) return;
         Command command = commandFactory.createCommand(commandArgs);
         if (command != null) {
             command.execute(commandArgs);
