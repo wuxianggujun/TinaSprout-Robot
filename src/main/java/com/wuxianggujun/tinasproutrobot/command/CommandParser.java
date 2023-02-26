@@ -1,51 +1,59 @@
 package com.wuxianggujun.tinasproutrobot.command;
 
-import java.util.Arrays;
+import com.wuxianggujun.tinasproutrobot.command.impl.AddCommandFactory;
+import com.wuxianggujun.tinasproutrobot.command.inter.Command;
+import com.wuxianggujun.tinasproutrobot.command.inter.CommandFactory;
+
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * @author WuXiangGuJun
- * @create 2023-02-25 19:14
+ * @create 2023-02-25 23:03
  **/
 public class CommandParser {
-    private String commandLine;
-    private String operator = "/";
+    private CommandFactory commandFactory;
+
+    public CommandParser(CommandFactory commandFactory) {
+        this.commandFactory = commandFactory;
+    }
 
     public CommandParser() {
 
     }
 
-    public CommandParser(String commandLine) {
-        this.commandLine = commandLine;
-        //只有操作符符合你定义的才开始解析
-        if (commandLine.startsWith(operator)) {
-            parse();
-        } else {
-            System.out.println("Invalid command format.");
+    public void parse(String inputString) {
+        String[] parts = inputString.split(" ");
+        //获取命令名字是add还是delete
+        String commandName = parts[0].substring(1);
+        CommandFactory commandFactory = createCommandFactory(commandName);
+        //判断命令存不存在
+        if (commandFactory == null) {
+            throw new IllegalArgumentException("Unknown command: " + commandName);
+        }
+        Map<String, String> argsMap = new HashMap<>();
+        for (int i = 1; i < parts.length; i += 2) {
+            if (i + 1 >= parts.length) {
+                throw new IllegalArgumentException("Invalid command line: " + inputString);
+            }
+            String key = parts[i].replaceAll("-", "");
+            String value = parts[i + 1];
+            argsMap.put(key, value);
+        }
+        CommandArgs commandArgs = new CommandArgs(argsMap);
+        Command command = commandFactory.createCommand(commandArgs);
+        if (command != null) {
+            command.execute();
         }
     }
 
-    public void parse() {
-        String[] parts = commandLine.split(" ");
-        String command = parts[0].substring(operator.length());
-        String[] args = new String[parts.length - 1];
-        System.arraycopy(parts, 1, args, 0, args.length);
-        processCommand(command, args);
-    }
-
-
-    public ParsedCommand parse(String commandStr) {
-        if (!commandStr.startsWith(operator)) {
-            return null;
+    private CommandFactory createCommandFactory(String commandName) {
+        CommandFactory commandFactory = null;
+        switch (commandName) {
+            case "add":
+                commandFactory = new AddCommandFactory();
+                break;
         }
-        String[] parts = commandStr.split("\\\\s+");
-        String command = parts[0].substring(1);
-        String option = parts.length > 1 ? parts[1] : "";
-        return new ParsedCommand(command, option);
-    }
-
-
-    public void processCommand(String command, String[] args) {
-        System.out.println("command = " + command);
-        System.out.println("args = " + Arrays.toString(args));
+        return commandFactory;
     }
 }

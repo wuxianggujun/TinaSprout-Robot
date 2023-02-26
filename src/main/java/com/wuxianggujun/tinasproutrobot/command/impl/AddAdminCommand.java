@@ -5,12 +5,11 @@ import com.wuxianggujun.tinasproutrobot.command.inter.Command;
 
 /**
  * @author WuXiangGuJun
- * @create 2023-02-25 23:01
+ * @create 2023-02-26 11:47
  **/
-public class AddCommand implements Command {
-
+public class AddAdminCommand implements Command {
     @Override
     public void execute() {
-        System.out.println("AddCommand = " + this.getClass().getName());
+        System.out.println("this.getClass().getName() = " + this.getClass().getName());
     }
 }
