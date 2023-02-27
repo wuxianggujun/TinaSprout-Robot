@@ -6,9 +6,11 @@ import com.wuxianggujun.tinasproutrobot.command.inter.CommandFactory;
 import com.zhuangxv.bot.core.Contact;
 import com.zhuangxv.bot.core.Friend;
 import org.jetbrains.annotations.NotNull;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import java.util.*;
+import java.util.stream.Stream;
 
 /**
  * @author WuXiangGuJun
@@ -19,15 +21,28 @@ public class CommandParser {
     private String operator = "/";
     private Contact contact;
 
+    @Autowired
+    private Map<String, CommandFactory> commandFactoryMap;
+
+
     public void setContact(Contact contact) {
         this.contact = contact;
     }
 
     public CommandParser() {
+        commandFactoryMap = new HashMap<>();
     }
 
 
     public void parse(@NotNull String commandLine) {
+        Stream<Map.Entry<String, CommandFactory>> stream = commandFactoryMap.entrySet().stream();
+        //满足条件时终止整个stream的处理过程
+        stream.forEach(entry -> {
+            String entryKey = entry.getKey();
+            System.out.println("entryKey = " + entryKey);
+        });
+
+
         if (!commandLine.startsWith(operator)) {
             return;
         }

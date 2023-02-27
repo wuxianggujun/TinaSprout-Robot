@@ -10,3 +10,5 @@ public class CommandLineTest {
         commandParser.parse("/add -admin wuxianggujun -input 我 爱 你哟-");
     }
 }
+
+
